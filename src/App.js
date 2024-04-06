@@ -1,7 +1,8 @@
 import "./App.css";
+import AnalyticsChart from "./components/AnalyticsChart";
 
 function App() {
-    return <h1>App</h1>;
+    return <AnalyticsChart />;
 }
 
 export default App;
