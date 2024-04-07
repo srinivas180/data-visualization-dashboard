@@ -21,6 +21,7 @@ ChartJS.register(
 );
 
 export const options = {
+    maintainAspectRatio: false,
     indexAxis: "y",
     scales: {
         y: {
@@ -61,7 +62,7 @@ export const options = {
             borderWidth: 2,
         },
     },
-    responsive: true,
+    responsive: false,
     plugins: {
         legend: {
             display: false,
@@ -157,8 +158,10 @@ function AnalyticsChart() {
     }
 
     return (
-        <div>
+        <div className="flex flex-wrap">
             <Bar
+                width={700}
+                height={500}
                 ref={chartRef}
                 options={options}
                 data={data}
