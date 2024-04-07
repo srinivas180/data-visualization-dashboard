@@ -9,6 +9,7 @@ import {
 } from "chart.js";
 import { useEffect, useRef, useState } from "react";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
+import FeatureTrend from "./FeatureTrend";
 
 ChartJS.register(
     CategoryScale,
@@ -75,6 +76,9 @@ export const options = {
     },
 };
 
+const API_ENDPOINT =
+    "https://5ebc17ae-68ec-47c7-a6d7-bb98371e531e-00-2wfysx6t421uu.spock.replit.dev";
+
 function AnalyticsChart() {
     const [analyticsData, setAnalyticsData] = useState([]);
     const [labels, setLabels] = useState([]);
@@ -87,14 +91,15 @@ function AnalyticsChart() {
         "rgba(255, 99, 132, 0.5)",
         "rgba(255, 99, 132, 0.5)",
     ]);
+    const [featureTrendData, setFeatureTrendData] = useState([]);
+    const [feature, setFeature] = useState();
+    const [showLineChart, setShowLineChart] = useState(false);
+    const [activeElement, setActiveElement] = useState(-1);
     const chartRef = useRef();
 
     async function fetchData() {
-        const response = await fetch(
-            "https://5ebc17ae-68ec-47c7-a6d7-bb98371e531e-00-2wfysx6t421uu.spock.replit.dev/totalTimeSpent"
-        );
+        const response = await fetch(`${API_ENDPOINT}/totalTimeSpent`);
         const data = await response.json();
-        console.log(data);
         setAnalyticsData(data);
     }
 
@@ -120,27 +125,52 @@ function AnalyticsChart() {
         ],
     };
 
-    function handleBarElementClick(e) {
+    async function handleBarElementClick(e) {
         const element = getElementAtEvent(chartRef.current, e);
-        setBackgroundColor((backgroundColor) =>
-            backgroundColor.map((color, index) => {
-                if (index === element[0].index) {
-                    return "red";
-                }
-                return "rgba(255, 99, 132, 0.5)";
-            })
-        );
-        console.log(element[0]);
-        backgroundColor[element[0].index] = "red";
+
+        if (element[0].index === activeElement) {
+            setBackgroundColor((backgroundColor) =>
+                backgroundColor.map((color) => "rgba(255, 99, 132, 0.5)")
+            );
+            setActiveElement(-1);
+            setShowLineChart(false);
+        } else {
+            setShowLineChart(true);
+            setActiveElement(element[0].index);
+            setBackgroundColor((backgroundColor) =>
+                backgroundColor.map((color, index) => {
+                    if (index === element[0].index) {
+                        return "red";
+                    }
+                    return "rgba(255, 99, 132, 0.5)";
+                })
+            );
+            backgroundColor[element[0].index] = "red";
+
+            const response = await fetch(
+                `${API_ENDPOINT}/feature-trend/${labels[element[0].index]}`
+            );
+            const featureTrendData = await response.json();
+            setFeatureTrendData(featureTrendData);
+            setFeature(labels[element[0].index]);
+        }
     }
 
     return (
-        <Bar
-            ref={chartRef}
-            options={options}
-            data={data}
-            onClick={handleBarElementClick}
-        />
+        <div>
+            <Bar
+                ref={chartRef}
+                options={options}
+                data={data}
+                onClick={handleBarElementClick}
+            />
+            {showLineChart && (
+                <FeatureTrend
+                    featureTrendData={featureTrendData}
+                    feature={feature}
+                />
+            )}
+        </div>
     );
 }
 
