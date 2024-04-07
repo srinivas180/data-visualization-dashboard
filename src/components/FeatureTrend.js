@@ -9,6 +9,7 @@ import {
     Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Zoom from "chartjs-plugin-zoom";
 
 ChartJS.register(
     CategoryScale,
@@ -17,7 +18,8 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Zoom
 );
 
 export const featureTrendOptions = {
@@ -47,6 +49,21 @@ export const featureTrendOptions = {
         },
         tooltip: {
             enabled: true,
+        },
+        zoom: {
+            zoom: {
+                wheel: {
+                    enabled: true,
+                },
+                pinch: {
+                    enabled: true,
+                },
+                mode: "xy",
+            },
+            pan: {
+                enabled: true,
+                mode: "xy",
+            },
         },
     },
 };
