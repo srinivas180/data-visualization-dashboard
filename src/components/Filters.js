@@ -7,8 +7,8 @@ import "react-date-range/dist/theme/default.css";
 function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
     const [dateRange, setDateRange] = useState([
         {
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: new Date("2022-10-4"),
+            endDate: new Date("2022-10-29"),
             key: "selection",
         },
     ]);
@@ -46,6 +46,7 @@ function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
     }
 
     function clearDateRange() {
+        toggleShowDatePicker();
         setFromDate(undefined);
         setToDate(undefined);
     }
@@ -82,6 +83,8 @@ function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
                             months={1}
                             ranges={dateRange}
                             direction="horizontal"
+                            minDate={new Date("2022-10-4")}
+                            maxDate={new Date("2022-10-29")}
                         />
                         <div>
                             <button onClick={setDateRangeQueryStrings}>
