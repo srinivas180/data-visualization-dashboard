@@ -1,8 +1,8 @@
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-
 import React, { useState } from "react";
 import { DateRangePicker } from "react-date-range";
+
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
     const [dateRange, setDateRange] = useState([
@@ -43,6 +43,9 @@ function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
 
     function cancelDatePicker() {
         toggleShowDatePicker();
+    }
+
+    function clearDateRange() {
         setFromDate(undefined);
         setToDate(undefined);
     }
@@ -83,6 +86,9 @@ function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
                         <div>
                             <button onClick={setDateRangeQueryStrings}>
                                 Apply
+                            </button>
+                            <button onClick={clearDateRange}>
+                                Clear Range
                             </button>
                             <button onClick={cancelDatePicker}>Cancel</button>
                         </div>
