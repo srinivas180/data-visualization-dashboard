@@ -134,26 +134,28 @@ function AnalyticsChart({ age, gender, fromDate, toDate }) {
     async function handleBarElementClick(e) {
         const element = getElementAtEvent(chartRef.current, e);
 
-        if (element[0].index === activeElement) {
-            setBackgroundColor((backgroundColor) =>
-                backgroundColor.map((color) => "rgba(255, 99, 132, 0.5)")
-            );
-            setActiveElement(-1);
-            setShowLineChart(false);
-        } else {
-            setShowLineChart(true);
-            setActiveElement(element[0].index);
-            setBackgroundColor((backgroundColor) =>
-                backgroundColor.map((color, index) => {
-                    if (index === element[0].index) {
-                        return "red";
-                    }
-                    return "rgba(255, 99, 132, 0.5)";
-                })
-            );
-            backgroundColor[element[0].index] = "red";
+        if (element[0]) {
+            if (element[0].index === activeElement) {
+                setBackgroundColor((backgroundColor) =>
+                    backgroundColor.map((color) => "rgba(255, 99, 132, 0.5)")
+                );
+                setActiveElement(-1);
+                setShowLineChart(false);
+            } else {
+                setShowLineChart(true);
+                setActiveElement(element[0].index);
+                setBackgroundColor((backgroundColor) =>
+                    backgroundColor.map((color, index) => {
+                        if (index === element[0].index) {
+                            return "red";
+                        }
+                        return "rgba(255, 99, 132, 0.5)";
+                    })
+                );
+                backgroundColor[element[0].index] = "red";
 
-            setFeature(labels[element[0].index]);
+                setFeature(labels[element[0].index]);
+            }
         }
     }
 
