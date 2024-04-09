@@ -4,7 +4,11 @@ import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-function Filters({ age, setAge, gender, setGender, setFromDate, setToDate }) {
+import { useFilterParams } from "./contexts/FilterParamsContext";
+
+function Filters() {
+    const { age, setAge, gender, setGender, setFromDate, setToDate } =
+        useFilterParams();
     const [dateRange, setDateRange] = useState([
         {
             startDate: new Date("2022-10-4"),

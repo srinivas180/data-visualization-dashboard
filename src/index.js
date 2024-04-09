@@ -4,6 +4,8 @@ import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import { FilterParamsProvider } from "./components/contexts/FilterParamsContext";
+
 import App from "./App";
 import "./index.css";
 
@@ -12,9 +14,11 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <QueryParamProvider adapter={ReactRouter6Adapter}>
-                <Routes>
-                    <Route path="/" element={<App />} />
-                </Routes>
+                <FilterParamsProvider>
+                    <Routes>
+                        <Route path="/" element={<App />} />
+                    </Routes>
+                </FilterParamsProvider>
             </QueryParamProvider>
         </BrowserRouter>
     </React.StrictMode>

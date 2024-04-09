@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import FeatureTrend from "./FeatureTrend";
 import { useSearchParams } from "react-router-dom";
+import { useFilterParams } from "./contexts/FilterParamsContext";
 
 ChartJS.register(
     CategoryScale,
@@ -81,7 +82,8 @@ export const options = {
 const API_ENDPOINT =
     "https://5ebc17ae-68ec-47c7-a6d7-bb98371e531e-00-2wfysx6t421uu.spock.replit.dev";
 
-function AnalyticsChart({ age, gender, fromDate, toDate }) {
+function AnalyticsChart() {
+    const { age, gender, fromDate, toDate } = useFilterParams();
     const [analyticsData, setAnalyticsData] = useState([]);
     const [labels, setLabels] = useState([]);
     const [totalTimeSpent, setTotalTimeSpent] = useState([]);
