@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -69,7 +70,9 @@ export const featureTrendOptions = {
     },
 };
 
-function FeatureTrend({ featureTrendData, feature }) {
+function FeatureTrend({ feature, searchParams, API_ENDPOINT }) {
+    const [featureTrendData, setFeatureTrendData] = useState([]);
+
     const dayLabels = featureTrendData.map((feature) => feature.Day);
 
     const featureTrendDataObjects = featureTrendData.map((featureTrend) => ({
@@ -88,6 +91,21 @@ function FeatureTrend({ featureTrendData, feature }) {
             },
         ],
     };
+
+    useEffect(() => {
+        async function fetchFeatureTrendData() {
+            const queryParams = searchParams.toString();
+            const response = await fetch(
+                `${API_ENDPOINT}/feature-trend/${feature}/${
+                    queryParams !== "" ? `?${queryParams}` : ""
+                }`
+            );
+            const featureTrendData = await response.json();
+            setFeatureTrendData(featureTrendData);
+        }
+
+        fetchFeatureTrendData();
+    }, [searchParams, feature, API_ENDPOINT]);
 
     return (
         <Line

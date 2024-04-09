@@ -10,6 +10,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import FeatureTrend from "./FeatureTrend";
+import { useSearchParams } from "react-router-dom";
 
 ChartJS.register(
     CategoryScale,
@@ -80,7 +81,7 @@ export const options = {
 const API_ENDPOINT =
     "https://5ebc17ae-68ec-47c7-a6d7-bb98371e531e-00-2wfysx6t421uu.spock.replit.dev";
 
-function AnalyticsChart() {
+function AnalyticsChart({ age, gender, fromDate, toDate }) {
     const [analyticsData, setAnalyticsData] = useState([]);
     const [labels, setLabels] = useState([]);
     const [totalTimeSpent, setTotalTimeSpent] = useState([]);
@@ -92,21 +93,25 @@ function AnalyticsChart() {
         "rgba(255, 99, 132, 0.5)",
         "rgba(255, 99, 132, 0.5)",
     ]);
-    const [featureTrendData, setFeatureTrendData] = useState([]);
     const [feature, setFeature] = useState();
     const [showLineChart, setShowLineChart] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const chartRef = useRef();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    async function fetchData() {
-        const response = await fetch(`${API_ENDPOINT}/totalTimeSpent`);
+    async function fetchData(queryParams) {
+        const response = await fetch(
+            `${API_ENDPOINT}/totalTimeSpent/${
+                queryParams !== "" ? `?${queryParams}` : ""
+            }`
+        );
         const data = await response.json();
         setAnalyticsData(data);
     }
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(searchParams.toString());
+    }, [searchParams, age, gender, fromDate, toDate]);
 
     useEffect(() => {
         setLabels(Object.keys(analyticsData));
@@ -148,11 +153,6 @@ function AnalyticsChart() {
             );
             backgroundColor[element[0].index] = "red";
 
-            const response = await fetch(
-                `${API_ENDPOINT}/feature-trend/${labels[element[0].index]}`
-            );
-            const featureTrendData = await response.json();
-            setFeatureTrendData(featureTrendData);
             setFeature(labels[element[0].index]);
         }
     }
@@ -169,8 +169,9 @@ function AnalyticsChart() {
             />
             {showLineChart && (
                 <FeatureTrend
-                    featureTrendData={featureTrendData}
+                    searchParams={searchParams}
                     feature={feature}
+                    API_ENDPOINT={API_ENDPOINT}
                 />
             )}
         </div>
