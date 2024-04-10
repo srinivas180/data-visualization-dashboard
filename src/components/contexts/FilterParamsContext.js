@@ -1,6 +1,6 @@
+import { createContext, useContext, useEffect } from "react";
 import { useQueryParam, StringParam, DateParam } from "use-query-params";
-
-import { createContext, useContext } from "react";
+import { useCookies } from "react-cookie";
 
 const FilterParamsContext = createContext();
 
@@ -9,18 +9,37 @@ function FilterParamsProvider({ children }) {
     const [gender, setGender] = useQueryParam("gender", StringParam);
     const [fromDate, setFromDate] = useQueryParam("fromDate", DateParam);
     const [toDate, setToDate] = useQueryParam("toDate", DateParam);
+    const [cookies, setCookie, removeCookie] = useCookies([
+        "age",
+        "gender",
+        "fromDate",
+        "toDate",
+    ]);
+
+    useEffect(() => {
+        if (cookies.age) setAge(cookies.age);
+
+        if (cookies.gender) setGender(cookies.gender);
+
+        if (cookies.fromDate) setFromDate(new Date(cookies.fromDate));
+
+        if (cookies.toDate) setToDate(new Date(cookies.toDate));
+    }, []);
+
     return (
         <FilterParamsContext.Provider
-            value={
-                (age,
+            value={{
+                age,
                 setAge,
                 gender,
                 setGender,
                 fromDate,
                 setFromDate,
                 toDate,
-                setToDate)
-            }
+                setToDate,
+                setCookie,
+                removeCookie,
+            }}
         >
             {children}
         </FilterParamsContext.Provider>

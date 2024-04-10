@@ -12,6 +12,7 @@ import { Bar, getElementAtEvent } from "react-chartjs-2";
 import FeatureTrend from "./FeatureTrend";
 import { useSearchParams } from "react-router-dom";
 import { useFilterParams } from "./contexts/FilterParamsContext";
+import axios from "axios";
 
 ChartJS.register(
     CategoryScale,
@@ -82,6 +83,8 @@ export const options = {
 const API_ENDPOINT =
     "https://5ebc17ae-68ec-47c7-a6d7-bb98371e531e-00-2wfysx6t421uu.spock.replit.dev";
 
+let cancelTokenSource;
+
 function AnalyticsChart() {
     const { age, gender, fromDate, toDate } = useFilterParams();
     const [analyticsData, setAnalyticsData] = useState([]);
@@ -102,13 +105,21 @@ function AnalyticsChart() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     async function fetchData(queryParams) {
-        const response = await fetch(
-            `${API_ENDPOINT}/totalTimeSpent/${
-                queryParams !== "" ? `?${queryParams}` : ""
-            }`
-        );
-        const data = await response.json();
-        setAnalyticsData(data);
+        if (typeof cancelTokenSource != typeof undefined) {
+            cancelTokenSource.cancel("Operation canceled due to new request.");
+        }
+
+        cancelTokenSource = axios.CancelToken.source();
+
+        try {
+            const response = await axios.get(
+                `${API_ENDPOINT}/totalTimeSpent/${
+                    queryParams !== "" ? `?${queryParams}` : ""
+                }`,
+                { cancelToken: cancelTokenSource.token }
+            );
+            setAnalyticsData(response.data);
+        } catch (error) {}
     }
 
     useEffect(() => {

@@ -7,8 +7,16 @@ import "react-date-range/dist/theme/default.css";
 import { useFilterParams } from "./contexts/FilterParamsContext";
 
 function Filters() {
-    const { age, setAge, gender, setGender, setFromDate, setToDate } =
-        useFilterParams();
+    const {
+        age,
+        setAge,
+        gender,
+        setGender,
+        setFromDate,
+        setToDate,
+        setCookie,
+        removeCookie,
+    } = useFilterParams();
     const [dateRange, setDateRange] = useState([
         {
             startDate: new Date("2022-10-4"),
@@ -21,14 +29,24 @@ function Filters() {
 
     function handleAgeChange(e) {
         const age = e.target.value;
-        if (age !== "select") setAge(age);
-        else setAge(undefined);
+        if (age !== "select") {
+            setAge(age);
+            setCookie("age", age);
+        } else {
+            setAge(undefined);
+            removeCookie("age");
+        }
     }
 
     function handleGenderChange(e) {
         const gender = e.target.value;
-        if (gender !== "select") setGender(e.target.value);
-        else setGender(undefined);
+        if (gender !== "select") {
+            setGender(gender);
+            setCookie("gender", gender);
+        } else {
+            setGender(undefined);
+            removeCookie("gender");
+        }
     }
 
     function toggleShowDatePicker() {
@@ -42,6 +60,8 @@ function Filters() {
     function setDateRangeQueryStrings() {
         setFromDate(dateRange[0].startDate);
         setToDate(dateRange[0].endDate);
+        setCookie("fromDate", dateRange[0].startDate);
+        setCookie("toDate", dateRange[0].endDate);
         toggleShowDatePicker();
     }
 
@@ -53,6 +73,8 @@ function Filters() {
         toggleShowDatePicker();
         setFromDate(undefined);
         setToDate(undefined);
+        removeCookie("fromDate");
+        removeCookie("toDate");
     }
 
     return (
