@@ -1,5 +1,5 @@
 :root {
-    --primary: #00875a;
+    --primary: #81cdb4;
     --secondary: #c9ffed;
     --medium-green: #80f8d0;
     --gray: #bbbbbb;
@@ -19,6 +19,13 @@ html {
 .container {
     margin: 0 auto;
     padding: 12px 24px;
+}
+
+.container--center {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .m-0 {

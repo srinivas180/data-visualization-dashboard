@@ -39,7 +39,7 @@ export default function Login() {
     }, [isLoggedIn, navigate]);
 
     return (
-        <div className="container column column--center">
+        <div className="container container--center column column--center">
             <form
                 className="form column"
                 onSubmit={(e) => handleLogin(e, userCreds)}

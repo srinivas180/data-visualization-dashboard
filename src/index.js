@@ -7,12 +7,13 @@ import { Provider } from "react-redux";
 
 import { FilterParamsProvider } from "./contexts/FilterParamsContext";
 
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+
 import App from "./App";
 import { store } from "./app/store";
 
 import "./index.css";
-import Login from "./pages/Login/Login";
-import SignUp from "./pages/SignUp/SignUp";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

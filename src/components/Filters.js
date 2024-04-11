@@ -78,51 +78,69 @@ function Filters() {
     }
 
     return (
-        <div>
-            <h2>Filters</h2>
-            <div className="flex gap-4">
-                <div>
-                    <span>Age:</span>
-                    <select onChange={handleAgeChange} value={age}>
-                        <option value={"select"}>Select</option>
-                        <option value={"15-25"}>15-25</option>
-                        <option value={">25"}>&gt;25</option>
-                    </select>
+        <div className="mx-10">
+            <h2 className="my-4">Filters</h2>
+            <div className="flex flex-col items-start gap-4">
+                <div className="flex gap-4">
+                    <div className="border-4 border-solid border-[#81cdb4] rounded-md p-1">
+                        <span>Age:</span>
+                        <select onChange={handleAgeChange} value={age}>
+                            <option value={"select"}>Select</option>
+                            <option value={"15-25"}>15-25</option>
+                            <option value={">25"}>&gt;25</option>
+                        </select>
+                    </div>
+                    <div className="border-4 border-solid border-[#81cdb4] rounded-md p-1">
+                        <span>Gender:</span>
+                        <select onChange={handleGenderChange} value={gender}>
+                            <option value={"select"}>Select</option>
+                            <option value={"Male"}>Male</option>
+                            <option value={"Female"}>Female</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <span>Gender:</span>
-                    <select onChange={handleGenderChange} value={gender}>
-                        <option value={"select"}>Select</option>
-                        <option value={"Male"}>Male</option>
-                        <option value={"Female"}>Female</option>
-                    </select>
+                <div className="flex flex-col">
+                    <button
+                        onClick={toggleShowDatePicker}
+                        className="border-4 border-solid border-[#81cdb4] rounded-md mb-4 p-1"
+                    >
+                        Filter By Dates
+                    </button>
+                    {showDatePicker && (
+                        <>
+                            <DateRangePicker
+                                onChange={handleDateRangeChange}
+                                showSelectionPreview={true}
+                                moveRangeOnFirstSelection={false}
+                                months={1}
+                                ranges={dateRange}
+                                direction="horizontal"
+                                minDate={new Date("2022-10-4")}
+                                maxDate={new Date("2022-10-29")}
+                            />
+                            <div className="flex gap-2">
+                                <button
+                                    className="border-4 border-solid border-[#81cdb4] rounded-md p-1"
+                                    onClick={setDateRangeQueryStrings}
+                                >
+                                    Apply
+                                </button>
+                                <button
+                                    className="border-4 border-solid border-[#81cdb4] rounded-md p-1"
+                                    onClick={clearDateRange}
+                                >
+                                    Clear Range
+                                </button>
+                                <button
+                                    className="border-4 border-solid border-[#81cdb4] rounded-md p-1"
+                                    onClick={cancelDatePicker}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
-            </div>
-            <div className="flex flex-col">
-                <button onClick={toggleShowDatePicker}>Filter By Dates</button>
-                {showDatePicker && (
-                    <>
-                        <DateRangePicker
-                            onChange={handleDateRangeChange}
-                            showSelectionPreview={true}
-                            moveRangeOnFirstSelection={false}
-                            months={1}
-                            ranges={dateRange}
-                            direction="horizontal"
-                            minDate={new Date("2022-10-4")}
-                            maxDate={new Date("2022-10-29")}
-                        />
-                        <div>
-                            <button onClick={setDateRangeQueryStrings}>
-                                Apply
-                            </button>
-                            <button onClick={clearDateRange}>
-                                Clear Range
-                            </button>
-                            <button onClick={cancelDatePicker}>Cancel</button>
-                        </div>
-                    </>
-                )}
             </div>
         </div>
     );

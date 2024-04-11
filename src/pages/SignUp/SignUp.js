@@ -48,7 +48,7 @@ export default function SignUp() {
     }, [isLoggedIn]);
 
     return (
-        <div className="container column column--center">
+        <div className="container container--center column column--center">
             <form className="form column" onSubmit={handleSignUp}>
                 <h2 className="form__heading">Sign Up</h2>
                 <input
