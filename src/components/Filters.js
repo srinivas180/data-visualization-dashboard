@@ -77,6 +77,18 @@ function Filters() {
         removeCookie("toDate");
     }
 
+    function clearPreferences() {
+        setAge(undefined);
+        setGender(undefined);
+        setFromDate(undefined);
+        setToDate(undefined);
+
+        removeCookie("age");
+        removeCookie("gender");
+        removeCookie("fromDate");
+        removeCookie("toDate");
+    }
+
     return (
         <div className="mx-10">
             <h2 className="my-4">Filters</h2>
@@ -146,6 +158,14 @@ function Filters() {
                             </div>
                         </>
                     )}
+                </div>
+                <div>
+                    <button
+                        className="border-4 border-solid border-[#81cdb4] rounded-md mb-4 p-1"
+                        onClick={clearPreferences}
+                    >
+                        Clear All Filters/Cookies
+                    </button>
                 </div>
             </div>
         </div>
