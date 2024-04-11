@@ -4,7 +4,7 @@ import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-import { useFilterParams } from "./contexts/FilterParamsContext";
+import { useFilterParams } from "../contexts/FilterParamsContext";
 
 function Filters() {
     const {

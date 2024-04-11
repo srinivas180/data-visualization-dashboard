@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import FeatureTrend from "./FeatureTrend";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useFilterParams } from "./contexts/FilterParamsContext";
+import { useFilterParams } from "../contexts/FilterParamsContext";
 import axios from "axios";
 import { useSelector } from "react-redux";
 

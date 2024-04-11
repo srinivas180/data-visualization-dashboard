@@ -5,7 +5,7 @@ import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import { FilterParamsProvider } from "./components/contexts/FilterParamsContext";
+import { FilterParamsProvider } from "./contexts/FilterParamsContext";
 
 import App from "./App";
 import { store } from "./app/store";
