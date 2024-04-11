@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 
 import { EyeIcon } from "../../assets/icons/EyeIcon/EyeIcon";
 import { ClosedEyeIcon } from "../../assets/icons/ClosedEyeIcon/ClosedEyeIcon";
@@ -14,6 +14,7 @@ export default function SignUp() {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const [showPassword, setShowPassword] = useState();
     const [showConfirmPassword, setShowConfirmPassword] = useState();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [userDetails, setUserDetails] = useState({
         name: "",
@@ -43,7 +44,7 @@ export default function SignUp() {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate("/");
+            navigate(`/?${searchParams.toString()}`);
         }
     }, [isLoggedIn]);
 

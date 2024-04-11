@@ -54,6 +54,8 @@ export const signup = createAsyncThunk("auth/signup", async (userDetails) => {
             return {
                 _id: data._id,
                 email: data.email,
+                token: data.token,
+                isLoggedIn: true,
             };
         }
     } catch (error) {
@@ -82,8 +84,15 @@ export const authSlice = createSlice({
                 state.status = "loading";
             })
             .addCase(signup.fulfilled, (state, action) => {
-                console.log("signup state", state);
-                console.log("signup action", action);
+                state.status = "success";
+                state.token = action.payload.token;
+                state.isLoggedIn = action.payload.isLoggedIn;
+
+                localStorage.setItem("token", action.payload.token);
+
+                toast.success("successfully signed in.", {
+                    position: "bottom-right",
+                });
             })
             .addCase(login.pending, (state) => {
                 state.status = "loading";
