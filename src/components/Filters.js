@@ -84,7 +84,10 @@ function Filters() {
                 <div className="flex gap-4">
                     <div className="border-4 border-solid border-[#81cdb4] rounded-md p-1">
                         <span>Age:</span>
-                        <select onChange={handleAgeChange} value={age}>
+                        <select
+                            onChange={handleAgeChange}
+                            value={age === undefined ? "select" : age}
+                        >
                             <option value={"select"}>Select</option>
                             <option value={"15-25"}>15-25</option>
                             <option value={">25"}>&gt;25</option>
@@ -92,7 +95,10 @@ function Filters() {
                     </div>
                     <div className="border-4 border-solid border-[#81cdb4] rounded-md p-1">
                         <span>Gender:</span>
-                        <select onChange={handleGenderChange} value={gender}>
+                        <select
+                            onChange={handleGenderChange}
+                            value={gender === undefined ? "select" : gender}
+                        >
                             <option value={"select"}>Select</option>
                             <option value={"Male"}>Male</option>
                             <option value={"Female"}>Female</option>
