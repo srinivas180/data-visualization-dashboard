@@ -30,6 +30,14 @@ export const login = createAsyncThunk("auth/login", async (userCredentials) => {
                 isLoggedIn: true,
             };
         }
+
+        if (response.status === 400) {
+            const errorMsg = await response.text();
+            toast.error(errorMsg, {
+                position: "bottom-right",
+            });
+            throw new Error();
+        }
     } catch (error) {
         toast.error("Some error occurred while logging in.", {
             position: "bottom-right",
@@ -58,6 +66,14 @@ export const signup = createAsyncThunk("auth/signup", async (userDetails) => {
                 isLoggedIn: true,
             };
         }
+
+        if (response.status === 400) {
+            const errorMsg = await response.text();
+            toast.error(errorMsg, {
+                position: "bottom-right",
+            });
+            throw new Error();
+        }
     } catch (error) {
         toast.error("Some error occurred while signing up.", {
             position: "bottom-right",
@@ -71,11 +87,15 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            localStorage.setItem("token", null);
+            localStorage.removeItem("token");
 
             state.isLoggedIn = false;
             state.token = null;
             state.user = {};
+
+            toast.success("successfully logged out.", {
+                position: "bottom-right",
+            });
         },
     },
     extraReducers: (builder) =>
@@ -84,15 +104,20 @@ export const authSlice = createSlice({
                 state.status = "loading";
             })
             .addCase(signup.fulfilled, (state, action) => {
-                state.status = "success";
-                state.token = action.payload.token;
-                state.isLoggedIn = action.payload.isLoggedIn;
+                if (action.payload) {
+                    state.status = "success";
+                    state.token = action.payload.token;
 
-                localStorage.setItem("token", action.payload.token);
+                    if (action.payload.token) {
+                        state.isLoggedIn = action.payload.isLoggedIn;
+                    }
 
-                toast.success("successfully signed in.", {
-                    position: "bottom-right",
-                });
+                    localStorage.setItem("token", action.payload.token);
+
+                    toast.success("successfully signed up.", {
+                        position: "bottom-right",
+                    });
+                }
             })
             .addCase(login.pending, (state) => {
                 state.status = "loading";
@@ -101,7 +126,10 @@ export const authSlice = createSlice({
                 if (action.payload) {
                     state.status = "success";
                     state.token = action.payload.token;
-                    state.isLoggedIn = action.payload.isLoggedIn;
+
+                    if (action.payload.token) {
+                        state.isLoggedIn = action.payload.isLoggedIn;
+                    }
 
                     localStorage.setItem("token", action.payload.token);
 

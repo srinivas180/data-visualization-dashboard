@@ -4,6 +4,8 @@ import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { FilterParamsProvider } from "./contexts/FilterParamsContext";
 
@@ -30,6 +32,7 @@ root.render(
                     </FilterParamsProvider>
                 </Provider>
             </QueryParamProvider>
+            <ToastContainer />
         </BrowserRouter>
     </React.StrictMode>
 );
