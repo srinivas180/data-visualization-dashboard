@@ -29,9 +29,6 @@ function Header() {
 
     return (
         <div className="flex justify-end gap-4 my-4 mr-4">
-            <button className="border-4 border-solid border-[#81cdb4] rounded-md p-1">
-                Sign up
-            </button>
             {isLoggedIn ? (
                 <button
                     className="border-4 border-solid border-red-500 rounded-md p-1"
@@ -40,12 +37,20 @@ function Header() {
                     Logout
                 </button>
             ) : (
-                <Link
-                    className="border-4 border-solid border-[#81cdb4] rounded-md p-1"
-                    to="/login"
-                >
-                    Login
-                </Link>
+                <>
+                    <Link
+                        className="border-4 border-solid border-[#81cdb4] rounded-md p-1"
+                        to="/signup"
+                    >
+                        Sign up
+                    </Link>
+                    <Link
+                        className="border-4 border-solid border-[#81cdb4] rounded-md p-1"
+                        to="/login"
+                    >
+                        Login
+                    </Link>
+                </>
             )}
         </div>
     );

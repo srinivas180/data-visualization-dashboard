@@ -93,8 +93,8 @@ export default function Login() {
                 <button
                     onClick={(e) =>
                         handleLogin(e, {
-                            email: "satyachandra@proton.me",
-                            password: "satyachandra",
+                            email: "jack@gmail.com",
+                            password: "jack",
                         })
                     }
                     className="button button--text form__guest-login-button"
