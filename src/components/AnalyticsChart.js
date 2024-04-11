@@ -14,6 +14,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFilterParams } from "../contexts/FilterParamsContext";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 ChartJS.register(
     CategoryScale,
@@ -132,7 +133,11 @@ function AnalyticsChart() {
                     }
                 );
                 setAnalyticsData(response.data);
-            } catch (error) {}
+            } catch (error) {
+                toast.error("Failed to fetch analytics data.", {
+                    position: "bottom-right",
+                });
+            }
         }
     }
 

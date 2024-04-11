@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Zoom from "chartjs-plugin-zoom";
+import { toast } from "react-toastify";
 
 ChartJS.register(
     CategoryScale,
@@ -95,13 +96,19 @@ function FeatureTrend({ feature, searchParams, API_ENDPOINT }) {
     useEffect(() => {
         async function fetchFeatureTrendData() {
             const queryParams = searchParams.toString();
-            const response = await fetch(
-                `${API_ENDPOINT}/feature-trend/${feature}/${
-                    queryParams !== "" ? `?${queryParams}` : ""
-                }`
-            );
-            const featureTrendData = await response.json();
-            setFeatureTrendData(featureTrendData);
+            try {
+                const response = await fetch(
+                    `${API_ENDPOINT}/feature-trend/${feature}/${
+                        queryParams !== "" ? `?${queryParams}` : ""
+                    }`
+                );
+                const featureTrendData = await response.json();
+                setFeatureTrendData(featureTrendData);
+            } catch (error) {
+                toast.error("Failed to fetch analytics data.", {
+                    position: "bottom-right",
+                });
+            }
         }
 
         fetchFeatureTrendData();
