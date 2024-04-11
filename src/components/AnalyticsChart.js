@@ -10,9 +10,10 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import FeatureTrend from "./FeatureTrend";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFilterParams } from "./contexts/FilterParamsContext";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 ChartJS.register(
     CategoryScale,
@@ -103,23 +104,36 @@ function AnalyticsChart() {
     const [activeElement, setActiveElement] = useState(-1);
     const chartRef = useRef();
     const [searchParams, setSearchParams] = useSearchParams();
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const navigate = useNavigate();
 
     async function fetchData(queryParams) {
-        if (typeof cancelTokenSource != typeof undefined) {
-            cancelTokenSource.cancel("Operation canceled due to new request.");
+        if (queryParams !== "" && !isLoggedIn) {
+            navigate(`/login?${queryParams}`);
+        } else {
+            if (typeof cancelTokenSource != typeof undefined) {
+                cancelTokenSource.cancel(
+                    "Operation canceled due to new request."
+                );
+            }
+
+            cancelTokenSource = axios.CancelToken.source();
+
+            try {
+                const response = await axios.get(
+                    `${API_ENDPOINT}/totalTimeSpent/${
+                        queryParams !== "" ? `?${queryParams}` : ""
+                    }`,
+                    {
+                        cancelToken: cancelTokenSource.token,
+                        headers: {
+                            "x-auth-token": localStorage.getItem("token"),
+                        },
+                    }
+                );
+                setAnalyticsData(response.data);
+            } catch (error) {}
         }
-
-        cancelTokenSource = axios.CancelToken.source();
-
-        try {
-            const response = await axios.get(
-                `${API_ENDPOINT}/totalTimeSpent/${
-                    queryParams !== "" ? `?${queryParams}` : ""
-                }`,
-                { cancelToken: cancelTokenSource.token }
-            );
-            setAnalyticsData(response.data);
-        } catch (error) {}
     }
 
     useEffect(() => {
