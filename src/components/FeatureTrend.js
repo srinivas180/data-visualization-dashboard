@@ -26,7 +26,7 @@ ChartJS.register(
 
 export const featureTrendOptions = {
     options: {
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         scales: {
             xAxes: [
                 {
@@ -41,7 +41,7 @@ export const featureTrendOptions = {
             borderWidth: 2,
         },
     },
-    responsive: false,
+    responsive: true,
     plugins: {
         legend: {
             display: false,

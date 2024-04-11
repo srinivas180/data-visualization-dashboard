@@ -67,7 +67,7 @@ export const options = {
             borderWidth: 2,
         },
     },
-    responsive: false,
+    responsive: true,
     plugins: {
         legend: {
             display: false,
@@ -134,9 +134,9 @@ function AnalyticsChart() {
                 );
                 setAnalyticsData(response.data);
             } catch (error) {
-                toast.error("Failed to fetch analytics data.", {
-                    position: "bottom-right",
-                });
+                // toast.error("Failed to fetch analytics data.", {
+                //     position: "bottom-right",
+                // });
             }
         }
     }
@@ -192,10 +192,8 @@ function AnalyticsChart() {
     }
 
     return (
-        <div className="flex flex-wrap">
+        <div className="relative flex flex-row flex-wrap h-[500px] w-full md:w-[700px]">
             <Bar
-                width={700}
-                height={500}
                 ref={chartRef}
                 options={options}
                 data={data}
