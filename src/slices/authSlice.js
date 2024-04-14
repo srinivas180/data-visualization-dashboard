@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const API_ENDPOINT =
-    "https://5ebc17ae-68ec-47c7-a6d7-bb98371e531e-00-2wfysx6t421uu.spock.replit.dev";
+    "https://data-visualization-dashboard-backend-8eao.onrender.com";
 
 export const login = createAsyncThunk("auth/login", async (userCredentials) => {
     console.log("userCreddss", userCredentials);
