@@ -1,5 +1,5 @@
 # Backend Code
-https://replit.com/@srinivas365/Data-Visualization-Dashboard-Backend
+Check backend source code of this project here https://github.com/srinivas180/data-visualization-dashboard-backend
 
 # Demo
 
